@@ -51,14 +51,20 @@ int main()
     ifstream input(filename);
 
     int lines;
-    string start_page, end_page;
 
     input >> lines;
     cout << lines << endl;
     for (int i = 0; i < lines; ++i)
     {
-        input>>start_page>>end_page;
-        cout << start_page << " " << end_page<< endl;
+        if (!input.good())
+        {
+            std::cerr << "Error: Failed to read line " << i + 1 << endl;
+            return 1;
+        }
+        string start_page, end_page;
+        input >> start_page >> end_page;
+
+        cout << start_page << " " << end_page << endl;
         outputLadders.push_back(findWikiLadder(start_page, end_page));
     }
 
@@ -67,9 +73,9 @@ int main()
      * We've already implemented this for you!
      */
     // Write code here
-    for(auto ladder : outputLadders)
+    for (auto ladder : outputLadders)
     {
-        for(auto it = ladder.begin(); it != ladder.end(); it++)
+        for (auto it = ladder.begin(); it != ladder.end(); it++)
         {
             string page = *it;
             cout << page << " ";
